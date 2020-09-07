@@ -24,11 +24,34 @@ p {
     margin: 0;
 }
 
+section {
+    padding: 7em 0;
+}
+
 // style container first
 .container {
     width: 85%;
-    max-width: 65em ;
+    max-width: 65em;
     margin: 0 auto;
+}
+
+// lay out structure 
+.split {
+    display: flex;
+    // no matter where the spacing is, will keep a 2em gap
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: center;
+    & > * {
+        // div is set to 100%, flex-basis will over ride to 100% 
+        flex-basis: 30%;
+        min-width: 15em;
+    }
+
+    // once compiled
+    // .split > * {
+        
+    // }
 }
 
 .spacing > * + * {
@@ -68,7 +91,11 @@ p {
 }
 
 .section-title {
-
+    text-align: center;
+    font-size: clamp(2.5rem, calc(5vw + 1rem), 4rem);
+    line-height: 1;
+    color:  navy;
+    margin-bottom: 2em;
 }
 
 .hero {
@@ -77,11 +104,15 @@ p {
     padding: 15em 0;
     background: #222;
 
+
     // feature query, if browser supports background blend mode
     @supports(background-blend-mode: multiply) {
         background: url(../img/shoe-3.png),
             radial-gradient(#444, #111);
         background-blend-mode: multiply;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 
    
@@ -95,3 +126,72 @@ p {
     //          radial-gradient(#444, #111);
     //     }
     // }
+
+.featured {
+    background: #eee;
+    // & symbol is to add to .featured
+    &__item {
+        display: block;
+        // color: red;
+        position: relative;
+        transform: scale(.85);
+        transition: transform 250ms ease-in-out;
+        // border: 1px solid red;
+        text-decoration: none;
+        color: darkgrey;
+        text-align: center;
+        line-height: 1.2;
+        
+        &:hover,
+        &:focus {
+            transform: scale(1);
+
+            .featured__details {
+                opacity: 1;
+                // text-shadow: glow around text;
+                text-shadow: 0 0 2em rgba(white, 1);
+            }
+        }
+
+        &:after {
+            // anytime you have a sudo element you have to give it content;
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            // padding based on the width of the parent, not on the height. same with margin
+            padding: 75% 75% 0 0;
+            background: rgb(102, 156, 192);
+            border-radius: 50%;
+            // set the layering order, -1 will go behind current layer
+            z-index: -1;
+        }
+    }
+
+    &__details {
+        opacity: 0;
+        transition: opacity 250ms linear;
+
+        span {
+            display: block;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+    }
+}
+
+
+.product {
+    background: radial-gradient(var(--clr-inner, limegreen), var(--clr-outer, purple));
+    padding: 3em;
+    border-radius: 3em;
+    margin-bottom: 3em;
+    text-align: center;
+
+    &__title {
+        font-size: 4rem;
+        line-height: 1.1;
+        color: white;
+        text-shadow: 0 0 .2em rgba(black, .25);
+    }
+}
